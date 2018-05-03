@@ -81,3 +81,12 @@ pipeline {
         }
     }
 }
+
+// Gradlewコマンドを実行する
+def gradlew(command) {
+    if(isUnix()) {
+        sh "./gradlew ${command} --stacktrace"
+    } else {
+        bat "./gradlew.bat ${command} --stacktrace"
+    }
+}
