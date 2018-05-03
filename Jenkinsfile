@@ -42,33 +42,6 @@ pipeline {
             steps {
                 gradlew 'classes testClasses'
             }
-
-            // postブロックでstepsブロックの後に実行される処理が定義できる
-            post {
-                // alwaysブロックはstepsブロックの処理が失敗しても成功しても必ず実行される
-                always {
-
-                    // JavaDoc生成時に実行するとJavaDocの警告も含まれてしまうので
-                    // Javaコンパイル時の警告はコンパイル直後に収集する
-                    step([
-
-                        // プラグインを実行するときのクラス指定は完全修飾名でなくてもOK
-                        $class: 'WarningsPublisher',
-
-                        // Job実行時のコンソールから警告を収集する場合はconsoleParsers、
-                        // pmd.xmlなどのファイルから収集する場合はparserConfigurationsを指定する。
-                        // なおparserConfigurationsの場合はparserNameのほかにpattern(集計対象ファイルのパス)も指定が必要
-                        // パーサ名は下記プロパティファイルに定義されているものを使う
-                        // https://github.com/jenkinsci/warnings-plugin/blob/master/src/main/resources/hudson/plugins/warnings/parser/Messages.properties
-                        consoleParsers: [
-                            [parserName: 'Java Compiler (javac)'],
-                        ],
-                        canComputeNew: false,
-                        canResolveRelativesPaths: false,
-                        usePreviousBuildAsReference: true
-                    ])
-                }
-            }
         }
 
         stage('テスト') {
