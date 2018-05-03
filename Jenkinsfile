@@ -25,7 +25,7 @@ pipeline {
 
                 // ジョブ失敗の原因調査用にJenkinsfileとbuild.gradleは最初に保存する
                 archiveArtifacts "Jenkinsfile"
-                archiveArtifacts "build.gradle"
+                archiveArtifacts "build.gradle.kts"
 
                 // scriptブロックを使うと従来のScripted Pipelinesの記法も使える
                 script {
